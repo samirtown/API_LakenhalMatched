@@ -15,6 +15,10 @@ class CreateRapporteerActiviteitTable extends Migration
     {
         Schema::create('rapporteer_activiteit', function (Blueprint $table) {
             $table->id();
+            $table->text('reden');
+            $table->unsignedBigInteger('activiteit_ID');
+
+            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
             $table->timestamps();
         });
     }
@@ -26,6 +30,9 @@ class CreateRapporteerActiviteitTable extends Migration
      */
     public function down()
     {
+        schema::table('rapporteer_activiteit', function (Blueprint $table){
+            $table->dropForeign('rapporteer_activiteit_activiteit_ID_foreign');
+        });
         Schema::dropIfExists('rapporteer_activiteit');
     }
 }

@@ -14,7 +14,13 @@ class CreateInschrijvingenTable extends Migration
     public function up()
     {
         Schema::create('inschrijvingen', function (Blueprint $table) {
-            $table->id();
+            $table->text('bericht');
+            $table->boolean('geaccepteerd');
+            $table->unsignedBigInteger('user_ID');
+            $table->unsignedBigInteger('activiteit_ID');
+            
+            $table->foreign('user_ID')->references('user_ID')->on('users');
+            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
             $table->timestamps();
         });
     }
@@ -26,6 +32,10 @@ class CreateInschrijvingenTable extends Migration
      */
     public function down()
     {
+        schema::table('inschrijvingen', function (Blueprint $table){
+            $table->dropForeign('inschrijvingen_activiteit_ID_foreign');
+            $table->dropForeign('inschrijvingen_user_ID_foreign');
+        });
         Schema::dropIfExists('inschrijvingen');
     }
 }

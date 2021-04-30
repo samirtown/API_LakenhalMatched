@@ -14,8 +14,12 @@ class CreateGroepschatTable extends Migration
     public function up()
     {
         Schema::create('groepschat', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('groepschat_ID'); 
+            $table->integer('groeps_aantal');
+            $table->integer('max_aantal_personen');
+            $table->unsignedBigInteger('activiteit_ID');
+
+            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
         });
     }
 
@@ -26,6 +30,9 @@ class CreateGroepschatTable extends Migration
      */
     public function down()
     {
+        schema::table('groepschat', function (Blueprint $table){
+            $table->dropForeign('groepschat_activiteit_ID_foreign');
+        });
         Schema::dropIfExists('groepschat');
     }
 }
