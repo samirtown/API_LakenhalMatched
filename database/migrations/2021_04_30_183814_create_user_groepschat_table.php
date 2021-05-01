@@ -14,8 +14,6 @@ class CreateUserGroepschatTable extends Migration
     public function up()
     {
         Schema::create('user_groepschat', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
             $table->unsignedBigInteger('user_ID');
             $table->unsignedBigInteger('groepschat_ID');
             

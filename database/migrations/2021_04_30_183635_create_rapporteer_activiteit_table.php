@@ -14,7 +14,6 @@ class CreateRapporteerActiviteitTable extends Migration
     public function up()
     {
         Schema::create('rapporteer_activiteit', function (Blueprint $table) {
-            $table->id();
             $table->text('reden');
             $table->unsignedBigInteger('activiteit_ID');
 
