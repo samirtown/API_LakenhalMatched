@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserGroepschat extends Model
 {
-    use HasFactory;
+    protected $table = 'user_groepschat';
 }

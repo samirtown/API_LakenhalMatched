@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RapporteerActiviteit extends Model
 {
-    use HasFactory;
+    protected $table = 'rapporteer_activiteit';
 }
