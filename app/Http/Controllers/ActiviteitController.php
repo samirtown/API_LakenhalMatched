@@ -11,7 +11,7 @@ class ActiviteitController extends Controller
         return Activiteit::where('activiteit_ID','=',$activiteit_ID)->first();
     }
     
-      public function index(){
+    public function index(){
         return Activiteit::all();
     } 
 }
