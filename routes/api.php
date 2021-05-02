@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +41,10 @@ Route::get('/rapporteerActiviteit/{activiteit_ID}', 'RapporteerActiviteitControl
 Route::get('/rapporteerActiviteit', 'RapporteerActiviteitController@index');
 
 //User routes
-Route::get('/user/{user_ID}', 'UserController@show');
-Route::get('/user', 'UserController@index');
+Route::get('/users/{user_ID}', 'UserController@show');
+// Route::get('/users', 'UserController@index');
+Route::get('/users', [UserController::class, 'index']);
+
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
