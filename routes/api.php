@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategorieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,10 @@ Route::get('/activiteit/{activiteit_ID}', 'ActiviteitController@show');
 Route::get('/activiteit', 'ActiviteitController@index');
 
 //Categorie routes
-Route::get('/categorie/{categorie}', 'CategorieController@show');
-Route::get('/categorie', 'CategorieController@index');
+Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
+Route::get('/categorie', [CategorieController::class, 'index']);
+Route::post('/categorie/create', [CategorieController::class, 'create']);
+Route::put('/categorie/delete/{categorie}', [CategorieController::class, 'delete']);
 
 //Groepschat routes
 Route::get('/groepschat/{groepschat_ID}', 'GroepschatController@show');
@@ -41,8 +44,7 @@ Route::get('/rapporteerActiviteit/{activiteit_ID}', 'RapporteerActiviteitControl
 Route::get('/rapporteerActiviteit', 'RapporteerActiviteitController@index');
 
 //User routes
-Route::get('/users/{user_ID}', 'UserController@show');
-// Route::get('/users', 'UserController@index');
+Route::get('/users/{user_ID}', [UserController::class, 'show']);
 Route::get('/users', [UserController::class, 'index']);
 
 
