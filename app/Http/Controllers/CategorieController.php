@@ -20,7 +20,7 @@ class CategorieController extends Controller
         $categorie->save();
     }
 
-    public function delete($categorie){
-        $categorie = Categorie::where('categorie',"=",$categorie)->delete();
+    public function delete($categorie_ID){
+        $categorie = Categorie::where('categorie_ID',"=",$categorie_ID)->delete();
     }
 }

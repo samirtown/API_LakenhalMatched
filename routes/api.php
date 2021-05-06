@@ -24,7 +24,7 @@ Route::get('/activiteit', 'ActiviteitController@index');
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
 Route::get('/categorie', [CategorieController::class, 'index']);
 Route::post('/categorie/create', [CategorieController::class, 'create']);
-Route::put('/categorie/delete/{categorie}', [CategorieController::class, 'delete']);
+Route::put('/categorie/delete/{categorie_ID}', [CategorieController::class, 'delete']);
 
 //Groepschat routes
 Route::get('/groepschat/{groepschat_ID}', 'GroepschatController@show');
