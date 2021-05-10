@@ -16,6 +16,14 @@ use App\Http\Controllers\CategorieController;
 |
 */
 
+//Authenticatie
+Route::group(['prefix' => 'users', 'middleware' => 'CORS'], function ($router) {
+    Route::post('/register', [UserController::class, 'register'])->name('register.user');
+    Route::post('/login', [UserController::class, 'login'])->name('login.user');
+    Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
+});
+
 //Activiteit routes
 Route::get('/activiteit/{activiteit_ID}', 'ActiviteitController@show');
 Route::get('/activiteit', 'ActiviteitController@index');
@@ -44,8 +52,8 @@ Route::get('/rapporteerActiviteit/{activiteit_ID}', 'RapporteerActiviteitControl
 Route::get('/rapporteerActiviteit', 'RapporteerActiviteitController@index');
 
 //User routes
-Route::get('/users/{user_ID}', [UserController::class, 'show']);
-Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/show/{user_ID}', [UserController::class, 'show']);
+Route::get('/users/index', [UserController::class, 'index']);
 
 
 
