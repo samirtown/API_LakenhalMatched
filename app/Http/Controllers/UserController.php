@@ -21,7 +21,7 @@ class UserController extends Controller
     protected $user;
 
     public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register"]]);
+        $this->middleware("auth:api",["except" => ["login","register","index","show"]]);
         $this->user = new User;
     }
 
@@ -29,7 +29,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(),[
             'naam' => 'required|string',
             'email' => 'required|string|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:5|confirmed',
         ]);
 
         if($validator->fails()){
@@ -57,7 +57,7 @@ class UserController extends Controller
     public function login(Request $request){
         $validator = Validator::make($request->all(),[
             'email' => 'required|string',
-            'password' => 'required|min:6',
+            'password' => 'required|min:5',
         ]);
 
         if($validator->fails()){

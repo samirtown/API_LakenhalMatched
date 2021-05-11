@@ -4,6 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ActiviteitController;
+use App\Http\Controllers\GroepschatController;
+use App\Http\Controllers\UserGroepschatController;
+use App\Http\Controllers\InschrijvingenController;
+use App\Http\Controllers\RapporteerActiviteitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +21,13 @@ use App\Http\Controllers\CategorieController;
 |
 */
 
-//Authenticatie
-Route::group(['prefix' => 'users', 'middleware' => 'CORS'], function ($router) {
-    Route::post('/register', [UserController::class, 'register'])->name('register.user');
-    Route::post('/login', [UserController::class, 'login'])->name('login.user');
-    Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
-    Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
-});
+//User routes
+Route::get('/users/{user_ID}', [UserController::class, 'show']);
+Route::get('/users', [UserController::class, 'index']);
 
 //Activiteit routes
-Route::get('/activiteit/{activiteit_ID}', 'ActiviteitController@show');
-Route::get('/activiteit', 'ActiviteitController@index');
+Route::get('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'show']);
+Route::get('/activiteit', [ActiviteitController::class, 'index']);
 
 //Categorie routes
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
@@ -35,27 +36,29 @@ Route::post('/categorie/create', [CategorieController::class, 'create']);
 Route::put('/categorie/delete/{categorie_ID}', [CategorieController::class, 'delete']);
 
 //Groepschat routes
-Route::get('/groepschat/{groepschat_ID}', 'GroepschatController@show');
-Route::get('/groepschat', 'GroepschatController@index');
+Route::get('/groepschat/{groepschat_ID}', [GroepschatController::class, 'show']);
+Route::get('/groepschat', [GroepschatController::class, 'index']);
 
 //UserGroepschat routes
-Route::get('/userGroepschat/{user_ID}', 'UserGroepschatController@usersInGroep');
-Route::get('/userGroepschat/{groepschat_ID}', 'UserGroepschatController@groepenVanUser');
+Route::get('/userGroepschat/{user_ID}', [UserGroepschatController::class, 'usersInGroep']);
+Route::get('/userGroepschat/{groepschat_ID}', [UserGroepschatController::class, 'groepenVanUser']);
 
 //Inschrijvingen routes 
-Route::get('/inschrijvingen/{user_ID}', 'InschrijvingenController@inschrijvingenPersoon');
-Route::get('/inschrijvingen/{activiteit_ID}', 'InschrijvingenController@inschrijvingenActiviteit');
-Route::get('/inschrijvingen', 'InschrijvingenController@index');
+Route::get('/inschrijvingen/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
+Route::get('/inschrijvingen/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
+Route::get('/inschrijvingen', [InschrijvingenController::class, 'index']);
 
 //RapporteerActiviteit routes 
-Route::get('/rapporteerActiviteit/{activiteit_ID}', 'RapporteerActiviteitController@rapportagesActiviteit');
-Route::get('/rapporteerActiviteit', 'RapporteerActiviteitController@index');
+Route::get('/rapporteerActiviteit/{activiteit_ID}', [RapporteerActiviteitController::class, 'rapportagesActiviteit']);
+Route::get('/rapporteerActiviteit', [RapporteerActiviteitController::class, 'index']);
 
-//User routes
-Route::get('/users/show/{user_ID}', [UserController::class, 'show']);
-Route::get('/users/index', [UserController::class, 'index']);
-
-
+//Authenticatie
+Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
+    Route::post('/register', [UserController::class, 'register'])->name('register.user');
+    Route::post('/login', [UserController::class, 'login'])->name('login.user');
+    Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
+});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
