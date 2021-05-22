@@ -25,6 +25,8 @@ use App\Http\Controllers\RapporteerActiviteitController;
 Route::get('/users/{user_ID}', [UserController::class, 'show']);
 Route::get('/users', [UserController::class, 'index']);
 
+Route::put('users/update/{user_ID}', [UserController::class, 'update'])
+
 //Activiteit routes
 Route::get('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'show']);
 Route::get('/activiteit', [ActiviteitController::class, 'index']);

@@ -18,6 +18,20 @@ class UserController extends Controller
         return User::all();
     }
 
+    public function update(Request $request, $user_ID){
+        $userUpdate = User::findOrFail($user_ID);
+
+        $userUpdate->naam = $request->get('naam');
+        $userUpdate->profiel_foto = $request->get('profiel_foto');
+        $userUpdate->beroep = $request->get('beroep');
+        $userUpdate->favoriete_kunst = $request->get('favoriete_kunst');
+        $userUpdate->interesses = $request->get('interesses');
+        $userUpdate->eigenschappen = $request->get('eigenschappen');
+        $userUpdate->biografie = $request->get('biografie');
+
+        $userUpdate->save();
+    }
+
     protected $user;
 
     public function __construct(){
