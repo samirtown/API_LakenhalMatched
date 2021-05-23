@@ -25,17 +25,32 @@ class UserController extends Controller
         $userUpdate->profiel_foto = $request->get('profiel_foto');
         $userUpdate->beroep = $request->get('beroep');
         $userUpdate->favoriete_kunst = $request->get('favoriete_kunst');
-        $userUpdate->interesses = $request->get('interesses');
-        $userUpdate->eigenschappen = $request->get('eigenschappen');
         $userUpdate->biografie = $request->get('biografie');
 
         $userUpdate->save();
     }
 
+    public function updateJSON(Request $request, $user_ID){
+        $userUpdate = User::findOrFail($user_ID);
+        $interesses = json_decode($userUpdate->interesses);
+        $eigenschappen = json_decode($userUpdate->eigenschappen);
+
+        if($request->get('interesses') != ""){
+            $interesses[] = $request->get('interesses');
+            $userUpdate->update(['interesses' => $interesses]);
+        }else if($request->get('eigenschappen') != ""){
+            $eigenschappen[] = $request->get('eigenschappen');
+            $userUpdate->update(['eigenschappen' => $eigenschappen]);
+        }
+
+        $userUpdate->save();
+        return $userUpdate;
+    }
+
     protected $user;
 
     public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register","index","show"]]);
+        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateJSON"]]);
         $this->user = new User;
     }
 

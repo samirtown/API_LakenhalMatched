@@ -22,6 +22,12 @@ class User extends Authenticatable
         'naam',
         'email',
         'password',
+        'profiel_foto',
+        'beroep',
+        'interesses',
+        'eigenschappen',
+        'biografie',
+        'favoriete_kunst',
     ];
 
     /**
