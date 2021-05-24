@@ -30,7 +30,7 @@ class UserController extends Controller
         $userUpdate->save();
     }
 
-    public function updateJSON(Request $request, $user_ID){
+    public function updateKenmerk(Request $request, $user_ID){
         $userUpdate = User::findOrFail($user_ID);
         $interesses = json_decode($userUpdate->interesses);
         $eigenschappen = json_decode($userUpdate->eigenschappen);
@@ -47,10 +47,32 @@ class UserController extends Controller
         return $userUpdate;
     }
 
+    public function deleteKenmerk(Request $request, $user_ID){
+        $kenmerkDelete = User::findOrFail($user_ID);
+        $interesses = json_decode($kenmerkDelete->interesses);
+        $eigenschappen = json_decode($kenmerkDelete->eigenschappen);
+
+        if($request->get('interesses') != ""){
+            if (($key = array_search($request->get('interesses'), $interesses)) !== false) {
+                unset($interesses[$key]);
+                $interesses = array_values($interesses);
+                $kenmerkDelete->update(['interesses' => $interesses]);
+            }
+        }else if($request->get('eigenschappen') != ""){
+            if (($key = array_search($request->get('eigenschappen'), $eigenschappen)) !== false) {
+                unset($eigenschappen[$key]);
+                $eigenschappen = array_values($eigenschappen);
+                $kenmerkDelete->update(['eigenschappen' => $eigenschappen]);
+            }
+        }
+        $kenmerkDelete->save();
+        return $kenmerkDelete;
+    }
+
     protected $user;
 
     public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateJSON"]]);
+        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk"]]);
         $this->user = new User;
     }
 
