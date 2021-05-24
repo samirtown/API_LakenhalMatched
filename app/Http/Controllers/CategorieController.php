@@ -16,7 +16,10 @@ class CategorieController extends Controller
     } 
 
     public function create(Request $request){
-        $categorie = new Categorie(['categorie' => $request->categorie]);        
+        $categorie = new Categorie([
+            'categorie' => $request->categorie,
+            'lakenhal_activiteit' => $request->lakenhal_activiteit   
+            ]);        
         $categorie->save();
     }
 
