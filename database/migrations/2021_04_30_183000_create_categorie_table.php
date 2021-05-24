@@ -15,6 +15,7 @@ class CreateCategorieTable extends Migration
     {
         Schema::create('categorie', function (Blueprint $table) {
             $table->id('categorie_ID');
+            $table->boolean('lakenhal_activiteit')->default(false);
             $table->string('categorie')->unique();
         });
     }
