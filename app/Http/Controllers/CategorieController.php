@@ -15,12 +15,12 @@ class CategorieController extends Controller
         return Categorie::all();
     } 
 
-    public function create(Request $request){
-        $categorie = new Categorie([
-            'categorie' => $request->categorie,
-            'lakenhal_activiteit' => $request->lakenhal_activiteit   
-            ]);        
+    public function store(Request $request){
+        $categorie = new Categorie();
+        $categorie->categorie = $request->get('categorie');
+        $categorie->lakenhal_activiteit = $request->get('lakenhal_activiteit');       
         $categorie->save();
+        return $categorie;
     }
 
     public function delete($categorie_ID){

@@ -32,7 +32,7 @@ Route::get('/activiteit', [ActiviteitController::class, 'index']);
 //Categorie routes
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
 Route::get('/categorie', [CategorieController::class, 'index']);
-Route::post('/categorie/create', [CategorieController::class, 'create']);
+Route::post('/categorie/store', [CategorieController::class, 'store']);
 Route::delete('/categorie/delete/{categorie_ID}', [CategorieController::class, 'delete']);
 
 //Groepschat routes
