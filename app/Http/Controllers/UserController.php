@@ -27,6 +27,19 @@ class UserController extends Controller
         $userUpdate->favoriete_kunst = $request->get('favoriete_kunst');
         $userUpdate->biografie = $request->get('biografie');
 
+        if($request->file('profiel_foto')){
+            // check if user has an existing avatar
+            if($this->guard()->user()->profiel_foto != NULL){
+                // delete existing image file
+                Storage::disk('user_avatars')->delete($this->guard()->user()->profiel_foto);
+            }
+
+            $avatar_name = $this->random_char_gen(20).'.'.$request->file('profiel_foto')->getClientOriginalExtension();
+            $avatar_path = $request->file('profiel_foto')->storeAs('',$avatar_name, 'user_avatars');
+    
+            $userUpdate->profiel_foto = $avatar_path;
+        }
+
         $userUpdate->save();
     }
 
