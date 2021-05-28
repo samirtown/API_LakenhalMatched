@@ -75,7 +75,7 @@ class UserController extends Controller
         // check if image has been received from form
         if($request->file('profiel_foto')){
             // check if user has an existing avatar
-            if($profielFotoUser->profiel_foto != NULL){
+            if($profielFotoUser->profiel_foto != null){
                 // delete existing image file
                 Storage::disk('profiel_foto')->delete($profielFotoUser->profiel_foto);
             }
@@ -111,7 +111,7 @@ class UserController extends Controller
     protected $user;
 
     public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk", "profielFotoUpload"]]);
+        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk", "profielFotoUpload", "profielFoto"]]);
         $this->user = new User;
     }
 
