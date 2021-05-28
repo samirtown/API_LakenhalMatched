@@ -27,8 +27,8 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::put('users/update/{user_ID}', [UserController::class, 'update']);
 Route::put('users/updateKenmerk/{user_ID}', [UserController::class, 'updateKenmerk']);
-
 Route::put('users/deleteKenmerk/{user_ID}', [UserController::class, 'deleteKenmerk']);
+Route::post('users/profielFotoUpload/{user_ID}', [UserController::class, 'profielFotoUpload']);
 
 //Activiteit routes
 Route::get('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'show']);

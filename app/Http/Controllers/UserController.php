@@ -7,6 +7,7 @@ use App\Models\User;
 use Auth;
 use Validator;
 use Illuminate\Support\Facades\Hash;
+use Storage;
 
 class UserController extends Controller
 {
@@ -22,23 +23,9 @@ class UserController extends Controller
         $userUpdate = User::findOrFail($user_ID);
 
         $userUpdate->naam = $request->get('naam');
-        $userUpdate->profiel_foto = $request->get('profiel_foto');
         $userUpdate->beroep = $request->get('beroep');
         $userUpdate->favoriete_kunst = $request->get('favoriete_kunst');
         $userUpdate->biografie = $request->get('biografie');
-
-        if($request->file('profiel_foto')){
-            // check if user has an existing avatar
-            if($this->guard()->user()->profiel_foto != NULL){
-                // delete existing image file
-                Storage::disk('user_avatars')->delete($this->guard()->user()->profiel_foto);
-            }
-
-            $avatar_name = $this->random_char_gen(20).'.'.$request->file('profiel_foto')->getClientOriginalExtension();
-            $avatar_path = $request->file('profiel_foto')->storeAs('',$avatar_name, 'user_avatars');
-    
-            $userUpdate->profiel_foto = $avatar_path;
-        }
 
         $userUpdate->save();
     }
@@ -82,10 +69,49 @@ class UserController extends Controller
         return $kenmerkDelete;
     }
 
+    public function profielFotoUpload(Request $request, $user_ID){
+        $profielFotoUser = User::findOrFail($user_ID);
+        $uniqueid = uniqid();
+        // check if image has been received from form
+        if($request->file('profiel_foto')){
+            // check if user has an existing avatar
+            if($profielFotoUser->profiel_foto != NULL){
+                // delete existing image file
+                Storage::disk('profiel_foto')->delete($profielFotoUser->profiel_foto);
+            }
+    
+            // processing the uploaded image
+            $extension = $request->file('profiel_foto')->getClientOriginalExtension();
+            $profiel_foto_name = $uniqueid.'.'.$extension;
+            $profiel_foto_path = $request->file('profiel_foto')->storeAs('', $profiel_foto_name, 'profiel_foto' );
+
+    
+            // Update user's avatar column on 'users' table
+            $profielFotoUser->profiel_foto = $profiel_foto_path;
+    
+            if($profielFotoUser->save()){
+                return response()->json([
+                    'status'    =>  'success',
+                    'message'   =>  'Profile Photo Updated!',
+                    'profiel_foto_url'=>  url('storage/profiel_foto/'.$profiel_foto_path)
+                ]);
+            }else{
+                return response()->json([
+                    'status'    => 'failure',
+                    'message'   => 'failed to update profile photo!',
+                    'profiel_foto_url'=> NULL
+                ]);
+            }
+    
+        }
+        
+        return $request->file('profiel_foto');
+    }
+
     protected $user;
 
     public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk"]]);
+        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk", "profielFotoUpload"]]);
         $this->user = new User;
     }
 
