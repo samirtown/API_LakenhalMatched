@@ -58,6 +58,9 @@ Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
     Route::post('/login', [UserController::class, 'login'])->name('login.user');
     Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
+
+    Route::post('/forgot-password', [UserController::class, 'forgotPassword'])->name('password.request');
+    Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
