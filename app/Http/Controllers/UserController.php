@@ -126,7 +126,10 @@ class UserController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT 
-            ? back()->with(['status' => __($status)]) 
+            ? response()->json([
+                'success' => true,
+                'message' => 'Reset mail verstuurd!'
+            ]) 
             : back()->withErrors(['email' => __($status)]);
     }
 
