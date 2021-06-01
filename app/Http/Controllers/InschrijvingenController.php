@@ -21,6 +21,11 @@ class InschrijvingenController extends Controller
     } 
 
     public function create(Request $request){
-        return Inschrijvingen::all();
+        $activiteit = new Inschrijvingen();
+        $activiteit->bericht = $request->get('bericht');
+        $activiteit->user_ID = $request->get('user_ID');      
+        $activiteit->activiteit_ID = $request->get('activiteit_ID');   
+        $activiteit->save();
+        return $activiteit;
     } 
 }
