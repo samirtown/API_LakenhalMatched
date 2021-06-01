@@ -88,6 +88,7 @@ class UserController extends Controller
     
             // Update user's avatar column on 'users' table
             $profielFotoUser->profiel_foto = $profiel_foto_path;
+            $profielFotoUser->save();
     
             if($profielFotoUser->save()){
                 return response()->json([
