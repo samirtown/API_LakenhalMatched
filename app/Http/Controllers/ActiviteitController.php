@@ -18,7 +18,10 @@ class ActiviteitController extends Controller
     public function create(Request $request){
         $activiteit = new Activiteit();
         $activiteit->titel = $request->get('titel');
-        $activiteit->beschrijving = $request->get('beschrijving');       
+        $activiteit->beschrijving = $request->get('beschrijving');
+        $activiteit->user_ID = $request->get('user_ID'); 
+        $activiteit->lakenhal_activiteit = $request->get('lakenhal_activiteit');
+        $activiteit->max_aantal_deelnemers = $request->get('max_aantal_deelnemers');        
         $activiteit->save();
         return $activiteit;
     }
