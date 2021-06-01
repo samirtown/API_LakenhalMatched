@@ -17,14 +17,14 @@ class CreateActiviteitTable extends Migration
             $table->id('activiteit_ID');
             $table->string('titel');
             $table->text('beschrijving');
-            $table->longText('afbeelding');
-            $table->integer('max_aantal_deelnemers');
-            $table->boolean('lakenhal_activiteit');
-            $table->boolean('zichtbaar');
-            $table->integer('aantal_gerapporteerd');
+            $table->longText('afbeelding')->nullable();
+            $table->integer('max_aantal_deelnemers')->nullable();
+            $table->boolean('lakenhal_activiteit')->nullable();
+            $table->boolean('zichtbaar')->nullable();
+            $table->integer('aantal_gerapporteerd')->nullable();
             $table->timestamps();
-            $table->string('categorie');
-            $table->unsignedBigInteger('user_ID');
+            $table->string('categorie')->nullable();
+            $table->unsignedBigInteger('user_ID')->nullable();
 
             $table->foreign('categorie')->references('categorie')->on('categorie');
             $table->foreign('user_ID')->references('user_ID')->on('users');

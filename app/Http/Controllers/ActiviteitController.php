@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Activiteit;
+use App\Models\Activiteit;
 
 class ActiviteitController extends Controller
 { 
@@ -14,4 +14,12 @@ class ActiviteitController extends Controller
     public function index(){
         return Activiteit::all();
     } 
+
+    public function create(Request $request){
+        $activiteit = new Activiteit();
+        $activiteit->titel = $request->get('titel');
+        $activiteit->beschrijving = $request->get('beschrijving');       
+        $activiteit->save();
+        return $activiteit;
+    }
 }
