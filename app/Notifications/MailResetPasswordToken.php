@@ -46,7 +46,7 @@ class MailResetPasswordToken extends Notification
         $url = url($this->token);
 
         return (new MailMessage)
-                    ->from('examplemail@mail.com', 'Museum De Lakenhal') // change address later to correct address
+                    ->from('ipmedth.lakenhal@gmail.com', 'Museum De Lakenhal') // change address later to correct address
                     ->subject('Resetten Lakenhal Matcht wachtwoord')
                     ->greeting("Hallo!")
                     ->line('U ontvangt deze mail omdat u een aanvraag heeft gedaan om het wachtwoord te veranderen')

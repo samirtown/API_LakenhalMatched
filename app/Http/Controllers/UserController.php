@@ -49,7 +49,7 @@ class UserController extends Controller
         ];
 
         $this->user->create($data);
-        $responseMessage = "Registration Successful";
+        $responseMessage = "Registratie voltooid!";
 
         return response()->json([
             'success' => true,
@@ -72,10 +72,11 @@ class UserController extends Controller
 
         $credentials = $request->only(["email","password"]);
         $user = User::where('email',$credentials['email'])->first();
+
         if($user){
 
             if(!auth()->attempt($credentials)){
-                $responseMessage = "Invalid username or password";
+                $responseMessage = "Foute gebruikersnaam of wachtwoord";
                 return response()->json([
                     "success" => false,
                     "message" => $responseMessage,
@@ -89,7 +90,7 @@ class UserController extends Controller
         }
 
         else{
-            $responseMessage = "Sorry, this user does not exist";
+            $responseMessage = "Sorry, deze gebruiker bestaat niet";
             return response()->json([
                 "success" => false,
                 "message" => $responseMessage,
@@ -130,34 +131,56 @@ class UserController extends Controller
                 'success' => true,
                 'message' => 'Reset mail verstuurd!'
             ]) 
-            : back()->withErrors(['email' => __($status)]);
+            : response()->json([
+                'success' => false,
+                'message' => 'Er is geen gebruiker met dit email adres gevonden...'
+            ]);
     }
 
     public function resetPassword(Request $request) {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:5|confirmed',
-            'token' => 'required',
-        ]);
+        $user = User::where('email', $request->email)->first();
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        if ($user) {
+            $validator = Validator::make($request->all(),[
+                'token' => 'required',
+                'password' => 'required|min:5|confirmed',
+            ]);
 
-                $user->save();
-
-                event(new PasswordReset($user));
+            if($validator->fails()){
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->messages()->toArray()
+                ], 500);
             }
-        );
 
-        return $status == Password::PASSWORD_RESET
-            ? response()->json([
-                'success' => true,
-                'message' => "Wachtwoord is gewijzigd!"
-            ])
-            : back()->withErrors(['email' => [__($status)]]);
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user, $password) use ($request) {
+                    $user->forceFill([
+                        'password' => Hash::make($password)
+                    ])->setRememberToken(Str::random(60));
+
+                    $user->save();
+
+                    event(new PasswordReset($user));
+                }
+            ); 
+            
+            return $status == Password::PASSWORD_RESET
+                ? response()->json([
+                    'success' => true,
+                    'message' => "Wachtwoord is gewijzigd!"
+                ])
+                : response()->json([
+                    'success' => false,
+                    'message' => "Er is iets mis gegaan..."
+                ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => "Er is geen gebruiker met dit email adres gevonden..."
+            ]);
+        }
+
     }
 }
