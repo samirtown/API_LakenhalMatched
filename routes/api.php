@@ -38,8 +38,8 @@ Route::post('/activiteit', [ActiviteitController::class, 'create']);
 //Categorie routes
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
 Route::get('/categorie', [CategorieController::class, 'index']);
-Route::post('/categorie/create', [CategorieController::class, 'create']);
-Route::put('/categorie/delete/{categorie_ID}', [CategorieController::class, 'delete']);
+Route::post('/categorie/store', [CategorieController::class, 'store']);
+Route::delete('/categorie/delete/{categorie_ID}', [CategorieController::class, 'delete']);
 
 //Groepschat routes
 Route::get('/groepschat/{groepschat_ID}', [GroepschatController::class, 'show']);
@@ -65,6 +65,9 @@ Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
     Route::post('/login', [UserController::class, 'login'])->name('login.user');
     Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
+
+    Route::post('/forgot-password', [UserController::class, 'forgotPassword'])->name('password.request');
+    Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

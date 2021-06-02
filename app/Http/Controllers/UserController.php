@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Illuminate\Auth\Events\PasswordReset;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 use Storage;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -112,7 +115,7 @@ class UserController extends Controller
     protected $user;
 
     public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk", "profielFotoUpload", "profielFoto"]]);
+        $this->middleware("auth:api",["except" => ["login","register","index","show", "update", "updateKenmerk" ,"deleteKenmerk", "profielFotoUpload", "profielFoto", "forgotPassword", "resetPassword"]]);
         $this->user = new User;
     }
 
@@ -137,7 +140,7 @@ class UserController extends Controller
         ];
 
         $this->user->create($data);
-        $responseMessage = "Registration Successful";
+        $responseMessage = "Registratie voltooid!";
 
         return response()->json([
             'success' => true,
@@ -160,10 +163,11 @@ class UserController extends Controller
 
         $credentials = $request->only(["email","password"]);
         $user = User::where('email',$credentials['email'])->first();
+
         if($user){
 
             if(!auth()->attempt($credentials)){
-                $responseMessage = "Invalid username or password";
+                $responseMessage = "Foute gebruikersnaam of wachtwoord";
                 return response()->json([
                     "success" => false,
                     "message" => $responseMessage,
@@ -177,7 +181,7 @@ class UserController extends Controller
         }
 
         else{
-            $responseMessage = "Sorry, this user does not exist";
+            $responseMessage = "Sorry, deze gebruiker bestaat niet";
             return response()->json([
                 "success" => false,
                 "message" => $responseMessage,
@@ -204,5 +208,70 @@ class UserController extends Controller
             'success' => true,
             'message' => $responseMessage
         ], 200);
+    }
+
+    public function forgotPassword(Request $request) {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT 
+            ? response()->json([
+                'success' => true,
+                'message' => 'Reset mail verstuurd!'
+            ]) 
+            : response()->json([
+                'success' => false,
+                'message' => 'Er is geen gebruiker met dit email adres gevonden...'
+            ]);
+    }
+
+    public function resetPassword(Request $request) {
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            $validator = Validator::make($request->all(),[
+                'token' => 'required',
+                'password' => 'required|min:5|confirmed',
+            ]);
+
+            if($validator->fails()){
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->messages()->toArray()
+                ], 500);
+            }
+
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user, $password) use ($request) {
+                    $user->forceFill([
+                        'password' => Hash::make($password)
+                    ])->setRememberToken(Str::random(60));
+
+                    $user->save();
+
+                    event(new PasswordReset($user));
+                }
+            ); 
+            
+            return $status == Password::PASSWORD_RESET
+                ? response()->json([
+                    'success' => true,
+                    'message' => "Wachtwoord is gewijzigd!"
+                ])
+                : response()->json([
+                    'success' => false,
+                    'message' => "Er is iets mis gegaan..."
+                ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => "Er is geen gebruiker met dit email adres gevonden..."
+            ]);
+        }
+
     }
 }
