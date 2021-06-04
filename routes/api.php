@@ -34,6 +34,8 @@ Route::post('users/profielFotoUpload/{user_ID}', [UserController::class, 'profie
 //Activiteit routes
 Route::get('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'show']);
 Route::get('/activiteit', [ActiviteitController::class, 'index']);
+Route::get('/activiteitenUsers', [ActiviteitController::class, 'activiteitenUsers']);
+Route::get('/activiteitenGerapporteerd', [ActiviteitController::class, 'activiteitenGerapporteerd']);
 Route::post('/activiteit', [ActiviteitController::class, 'create']);
 
 //Categorie routes
