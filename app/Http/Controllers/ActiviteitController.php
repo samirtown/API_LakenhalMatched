@@ -21,7 +21,7 @@ class ActiviteitController extends Controller
     }
 
     public function activiteitenGerapporteerd(){
-        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
+        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->orderBy('activiteit.aantal_gerapporteerd', 'DESC')->get();
     }
 
     public function create(Request $request){
