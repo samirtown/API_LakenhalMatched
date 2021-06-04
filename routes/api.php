@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ActiviteitController;
 use App\Http\Controllers\GroepschatController;
@@ -61,10 +62,10 @@ Route::get('/rapporteerActiviteit', [RapporteerActiviteitController::class, 'ind
 
 //Authenticatie
 Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
-    Route::post('/register', [UserController::class, 'register'])->name('register.user');
-    Route::post('/login', [UserController::class, 'login'])->name('login.user');
-    Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
-    Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.user');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.user');
+    Route::get('/view-profile', [AuthController::class, 'viewProfile'])->name('profile.user');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.user');
 
     Route::post('/forgot-password', [UserController::class, 'forgotPassword'])->name('password.request');
     Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
