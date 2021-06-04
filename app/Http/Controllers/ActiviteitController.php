@@ -17,7 +17,11 @@ class ActiviteitController extends Controller
     }
     
     public function activiteitenUsers(){
-        return DB::table('activiteit')->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
+        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
+    }
+
+    public function activiteitenGerapporteerd(){
+        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
     }
 
     public function create(Request $request){
