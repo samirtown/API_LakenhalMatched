@@ -35,6 +35,7 @@ Route::post('users/profielFotoUpload/{user_ID}', [UserController::class, 'profie
 Route::get('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'show']);
 Route::get('/activiteit', [ActiviteitController::class, 'index']);
 Route::get('/activiteitenUsers', [ActiviteitController::class, 'activiteitenUsers']);
+Route::get('/activiteitenUsersProfiel/{user_ID}', [ActiviteitController::class, 'activiteitenUsersProfiel']);
 Route::get('/activiteitenGerapporteerd', [ActiviteitController::class, 'activiteitenGerapporteerd']);
 Route::post('/activiteit', [ActiviteitController::class, 'create']);
 
@@ -55,6 +56,8 @@ Route::get('/userGroepschat/{groepschat_ID}', [UserGroepschatController::class, 
 //Inschrijvingen routes 
 Route::get('/inschrijvingen/user/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
 Route::get('/inschrijvingen/activiteit/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
+Route::get('/inschrijvingen/activiteitUser/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteitUser']);
+Route::put('/inschrijvingen/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'update']);
 Route::get('/inschrijvingen', [InschrijvingenController::class, 'index']);
 Route::post('/inschrijvingen', [InschrijvingenController::class, 'create']);
 

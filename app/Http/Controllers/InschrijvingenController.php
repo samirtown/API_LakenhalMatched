@@ -15,6 +15,10 @@ class InschrijvingenController extends Controller
     public function inschrijvingenActiviteit($activiteit_ID){
         return Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->get();
     }  
+    //Zie alle inschrijvingen met de user informatie
+    public function inschrijvingenActiviteitUser($activiteit_ID){
+        return Inschrijvingen::join('users', 'inschrijvingen.user_ID', '=', 'users.user_ID')->get()->where('activiteit_ID','=',$activiteit_ID);
+    }  
 
     public function index(){
         return Inschrijvingen::all();
@@ -28,4 +32,11 @@ class InschrijvingenController extends Controller
         $activiteit->save();
         return $activiteit;
     } 
+
+    public function update($activiteit_ID, $user_ID){
+        $inschrijving = Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->where('user_ID','=',$user_ID)->first();
+        $inschrijving->geaccepteerd = true;
+        $inschrijving->save();
+        return $inschrijving;
+    }
 }

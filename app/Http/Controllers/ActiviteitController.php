@@ -20,6 +20,10 @@ class ActiviteitController extends Controller
         return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
     }
 
+    public function activiteitenUsersProfiel($user_ID){
+        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get()->where('user_ID','=',$user_ID);
+    }
+
     public function activiteitenGerapporteerd(){
         return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
     }
