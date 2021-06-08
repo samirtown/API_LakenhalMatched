@@ -15,13 +15,11 @@ class Message implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-    public $username;
-
-    public function __construct($message, $username)
-    {
-        $this->message = $message;
-        $this->user = $username;
+    public function __construct(
+        public string $username,
+        public string $message
+    )
+    {   
     }
 
     public function broadcastOn()
