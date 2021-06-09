@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ActiviteitController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GroepschatController;
 use App\Http\Controllers\UserGroepschatController;
 use App\Http\Controllers\InschrijvingenController;
@@ -79,3 +80,5 @@ Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('messages', [ChatController::class, 'message']);

@@ -1,0 +1,20 @@
+ii  php-common                     2:82+ubuntu20.04.1+deb.sury.org+1          all          Common files for PHP packages
+ii  php-curl                       2:8.0+82+ubuntu20.04.1+deb.sury.org+1      all          CURL module for PHP [default]
+ii  php-mbstring                   2:8.0+82+ubuntu20.04.1+deb.sury.org+1      all          MBSTRING module for PHP [default]
+ii  php-mysql                      2:8.0+82+ubuntu20.04.1+deb.sury.org+1      all          MySQL module for PHP [default]
+ii  php-xml                        2:8.0+82+ubuntu20.04.1+deb.sury.org+1      all          DOM, SimpleXML, WDDX, XML, and XSL module for PHP [default]
+ii  php7.4-bcmath                  7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        Bcmath module for PHP
+ii  php7.4-cli                     7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        command-line interpreter for the PHP scripting language
+ii  php7.4-common                  7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        documentation, examples and common module for PHP
+ii  php7.4-curl                    7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        CURL module for PHP
+ii  php7.4-json                    7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        JSON module for PHP
+ii  php7.4-mbstring                7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        MBSTRING module for PHP
+ii  php7.4-mysql                   7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        MySQL module for PHP
+ii  php7.4-opcache                 7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        Zend OpCache module for PHP
+ii  php7.4-readline                7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        readline module for PHP
+ii  php7.4-xml                     7.4.20-1+ubuntu20.04.1+deb.sury.org+1      amd64        DOM, SimpleXML, XML, and XSL module for PHP
+ii  php8.0-common                  8.0.7-1+ubuntu20.04.1+deb.sury.org+1       amd64        documentation, examples and common module for PHP
+ii  php8.0-curl                    8.0.7-1+ubuntu20.04.1+deb.sury.org+1       amd64        CURL module for PHP
+ii  php8.0-mbstring                8.0.7-1+ubuntu20.04.1+deb.sury.org+1       amd64        MBSTRING module for PHP
+ii  php8.0-mysql                   8.0.7-1+ubuntu20.04.1+deb.sury.org+1       amd64        MySQL module for PHP
+ii  php8.0-xml                     8.0.7-1+ubuntu20.04.1+deb.sury.org+1       amd64        DOM, SimpleXML, XML, and XSL module for PHP
