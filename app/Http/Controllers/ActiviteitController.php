@@ -28,6 +28,17 @@ class ActiviteitController extends Controller
         return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->orderBy('activiteit.aantal_gerapporteerd', 'DESC')->get();
     }
 
+    public function destroy($id){
+        $activiteit = Activiteit::where('activiteit_ID', '=', $id)->delete();
+        return response()->json('activiteit verwijderd');
+    }
+
+    public function updateRapportage($id){
+        $activiteit = Activiteit::where('activiteit_ID', '=', $id)->update([
+            "aantal_gerapporteerd" => 0
+        ]);
+    }
+
     public function create(Request $request){
         $activiteit = new Activiteit();
         $activiteit->titel = $request->get('titel');

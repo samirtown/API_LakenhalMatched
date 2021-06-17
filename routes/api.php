@@ -39,6 +39,8 @@ Route::get('/activiteitenUsers', [ActiviteitController::class, 'activiteitenUser
 Route::get('/activiteitenUsersProfiel/{user_ID}', [ActiviteitController::class, 'activiteitenUsersProfiel']);
 Route::get('/activiteitenGerapporteerd', [ActiviteitController::class, 'activiteitenGerapporteerd']);
 Route::post('/activiteit', [ActiviteitController::class, 'create']);
+Route::patch('/activiteit/verwijderRapportage/{activiteit_ID}', [ActiviteitController::class, 'updateRapportage']);
+Route::delete('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'destroy']);
 
 //Categorie routes
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
