@@ -39,4 +39,13 @@ class InschrijvingenController extends Controller
         $inschrijving->save();
         return $inschrijving;
     }
+
+    public function ingeschreven($activiteit_ID, $user_ID){
+        $ingeschreven = Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->where('user_ID','=',$user_ID)->first();
+        if($ingeschreven){
+            return "true";
+        }elseif(!$ingeschreven){
+            return "false";
+        }
+    }
 }

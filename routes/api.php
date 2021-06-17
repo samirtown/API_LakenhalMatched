@@ -60,6 +60,7 @@ Route::get('/userGroepschat/{groepschat_ID}', [UserGroepschatController::class, 
 Route::get('/inschrijvingen/user/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
 Route::get('/inschrijvingen/activiteit/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
 Route::get('/inschrijvingen/activiteitUser/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteitUser']);
+Route::get('/ingeschreven/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'ingeschreven']);
 Route::put('/inschrijvingen/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'update']);
 Route::get('/inschrijvingen', [InschrijvingenController::class, 'index']);
 Route::post('/inschrijvingen', [InschrijvingenController::class, 'create']);
