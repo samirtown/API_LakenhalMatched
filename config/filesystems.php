@@ -14,7 +14,6 @@ return [
     */
 
     'default' => env('FILESYSTEM_DRIVER', 'local'),
-
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
@@ -39,6 +38,13 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'profiel_foto' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/profiel_foto'),
+            'url' => env('APP_URL').'/storage/profiel_foto',
             'visibility' => 'public',
         ],
 

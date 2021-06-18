@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inschrijvingen extends Model
 {
+    protected $primaryKey = 'activiteit_ID';
     protected $table = 'inschrijvingen';
+    protected $fillable = ['inschrijvingen'];
 }

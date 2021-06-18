@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Auth\Events\PasswordReset;
 use Validator;
 use Illuminate\Support\Facades\Hash;
+use Storage;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -21,102 +22,94 @@ class UserController extends Controller
         return User::all();
     }
 
-    protected $user;
+    public function update(Request $request, $user_ID){
+        $userUpdate = User::findOrFail($user_ID);
 
-    public function __construct(){
-        $this->middleware("auth:api",["except" => ["login","register", "forgotPassword", "resetPassword","index","show"]]);
-        $this->user = new User;
+        $userUpdate->naam = $request->get('naam');
+        $userUpdate->beroep = $request->get('beroep');
+        $userUpdate->favoriete_kunst = $request->get('favoriete_kunst');
+        $userUpdate->biografie = $request->get('biografie');
+
+        $userUpdate->save();
     }
 
-    public function register(Request $request){
-        $validator = Validator::make($request->all(),[
-            'naam' => 'required|string',
-            'email' => 'required|string|unique:users',
-            'password' => 'required|min:5|confirmed',
-        ]);
+    public function updateKenmerk(Request $request, $user_ID){
+        $userUpdate = User::findOrFail($user_ID);
+        $interesses = json_decode($userUpdate->interesses);
+        $eigenschappen = json_decode($userUpdate->eigenschappen);
 
-        if($validator->fails()){
-            return response()->json([
-                'success' => false,
-                'message' => $validator->messages()->toArray()
-            ], 500);
+        if($request->get('interesses') != ""){
+            $interesses[] = $request->get('interesses');
+            $userUpdate->update(['interesses' => $interesses]);
+        }else if($request->get('eigenschappen') != ""){
+            $eigenschappen[] = $request->get('eigenschappen');
+            $userUpdate->update(['eigenschappen' => $eigenschappen]);
         }
 
-        $data = [
-            "naam" => $request->naam,
-            "email" => $request->email,
-            "password" => Hash::make($request->password)
-        ];
-
-        $this->user->create($data);
-        $responseMessage = "Registratie voltooid!";
-
-        return response()->json([
-            'success' => true,
-            'message' => $responseMessage
-        ], 200);
+        $userUpdate->save();
+        return $userUpdate;
     }
 
-    public function login(Request $request){
-        $validator = Validator::make($request->all(),[
-            'email' => 'required|string',
-            'password' => 'required|min:5',
-        ]);
+    public function deleteKenmerk(Request $request, $user_ID){
+        $kenmerkDelete = User::findOrFail($user_ID);
+        $interesses = json_decode($kenmerkDelete->interesses);
+        $eigenschappen = json_decode($kenmerkDelete->eigenschappen);
 
-        if($validator->fails()){
-            return response()->json([
-                'success' => false,
-                'message' => $validator->messages()->toArray()
-            ], 500);
-        }
-
-        $credentials = $request->only(["email","password"]);
-        $user = User::where('email',$credentials['email'])->first();
-
-        if($user){
-
-            if(!auth()->attempt($credentials)){
-                $responseMessage = "Foute gebruikersnaam of wachtwoord";
-                return response()->json([
-                    "success" => false,
-                    "message" => $responseMessage,
-                    "error" => $responseMessage
-                ], 422);
+        if($request->get('interesses') != ""){
+            if (($key = array_search($request->get('interesses'), $interesses)) !== false) {
+                unset($interesses[$key]);
+                $interesses = array_values($interesses);
+                $kenmerkDelete->update(['interesses' => $interesses]);
             }
-
-            $accessToken = auth()->user()->createToken('authToken')->accessToken;
-            $responseMessage = "Login Successful";
-            return $this->respondWithToken($accessToken,$responseMessage,auth()->user());
+        }else if($request->get('eigenschappen') != ""){
+            if (($key = array_search($request->get('eigenschappen'), $eigenschappen)) !== false) {
+                unset($eigenschappen[$key]);
+                $eigenschappen = array_values($eigenschappen);
+                $kenmerkDelete->update(['eigenschappen' => $eigenschappen]);
+            }
         }
-
-        else{
-            $responseMessage = "Sorry, deze gebruiker bestaat niet";
-            return response()->json([
-                "success" => false,
-                "message" => $responseMessage,
-                "error" => $responseMessage
-            ], 422);
-        }
+        $kenmerkDelete->save();
+        return $kenmerkDelete;
     }
 
-    public function viewProfile(){
-        $responseMessage = "user profile";
-        $data = Auth::guard("api")->user();
-        return response()->json([
-            "success" => true,
-            "message" => $responseMessage,
-            "data" => $data
-        ], 200);
-    }
+    public function profielFotoUpload(Request $request, $user_ID){
+        $profielFotoUser = User::findOrFail($user_ID);
+        $uniqueid = uniqid();
+        // check if image has been received from form
+        if($request->file('profiel_foto')){
+            // check if user has an existing avatar
+            if($profielFotoUser->profiel_foto != null){
+                // delete existing image file
+                Storage::disk('profiel_foto')->delete($profielFotoUser->profiel_foto);
+            }
+    
+            // processing the uploaded image
+            $extension = $request->file('profiel_foto')->getClientOriginalExtension();
+            $profiel_foto_name = $uniqueid.'.'.$extension;
+            $profiel_foto_path = $request->file('profiel_foto')->storeAs('', $profiel_foto_name, 'profiel_foto' );
 
-    public function logout(){
-        $user = Auth::guard("api")->user()->token();
-        $user->revoke();
-        $responseMessage = "successfully logged out";
-        return response()->json([
-            'success' => true,
-            'message' => $responseMessage
-        ], 200);
+    
+            // Update user's avatar column on 'users' table
+            $profielFotoUser->profiel_foto = $profiel_foto_path;
+            $profielFotoUser->save();
+    
+            if($profielFotoUser->save()){
+                return response()->json([
+                    'status'    =>  'success',
+                    'message'   =>  'Profile Photo Updated!',
+                    'profiel_foto_url'=>  url('storage/profiel_foto/'.$profiel_foto_path)
+                ]);
+            }else{
+                return response()->json([
+                    'status'    => 'failure',
+                    'message'   => 'failed to update profile photo!',
+                    'profiel_foto_url'=> NULL
+                ]);
+            }
+    
+        }
+        
+        return $request->file('profiel_foto');
     }
 
     public function forgotPassword(Request $request) {

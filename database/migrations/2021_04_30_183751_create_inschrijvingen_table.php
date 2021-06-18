@@ -14,8 +14,8 @@ class CreateInschrijvingenTable extends Migration
     public function up()
     {
         Schema::create('inschrijvingen', function (Blueprint $table) {
-            $table->text('bericht');
-            $table->boolean('geaccepteerd');
+            $table->text('bericht')->nullable();
+            $table->boolean('geaccepteerd')->default(false);
             $table->unsignedBigInteger('user_ID');
             $table->unsignedBigInteger('activiteit_ID');
             
