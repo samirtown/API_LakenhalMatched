@@ -84,5 +84,3 @@ Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::post('messages', [ChatController::class, 'message']);
