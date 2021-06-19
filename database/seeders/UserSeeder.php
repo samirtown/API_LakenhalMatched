@@ -35,5 +35,20 @@ class UserSeeder extends Seeder
             'beroep' => 'Informaticus',
             'profiel_foto' => '60ce030f529a7.jfif'
         ]);
+
+        DB::table('users')->insert([
+            'naam' => 'Maurice',
+            'email' => '17spyker@gmail.com',
+            'password' => bcrypt('17spyker'),
+            'beroep' => 'worstelaar',
+            'admin' => false
+        ]);
+        DB::table('users')->insert([
+            'naam' => 'Etienne',
+            'email' => 'mg.koreman99@gmail.com',
+            'password' => bcrypt('17spyker'),
+            'beroep' => 'leraar',
+            'admin' => false
+        ]);
     }
 }
