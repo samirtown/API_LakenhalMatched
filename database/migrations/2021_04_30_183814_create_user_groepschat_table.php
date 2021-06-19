@@ -17,8 +17,8 @@ class CreateUserGroepschatTable extends Migration
             $table->unsignedBigInteger('user_ID');
             $table->unsignedBigInteger('groepschat_ID');
             
-            $table->foreign('user_ID')->references('user_ID')->on('users');
-            $table->foreign('groepschat_ID')->references('groepschat_ID')->on('groepschat'); 
+            $table->foreign('user_ID')->references('user_ID')->on('users')->onDelete('cascade');;
+            $table->foreign('groepschat_ID')->references('groepschat_ID')->on('groepschat')->onDelete('cascade');; 
         }); 
     }
 

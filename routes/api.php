@@ -68,6 +68,7 @@ Route::post('/inschrijvingen', [InschrijvingenController::class, 'create']);
 //RapporteerActiviteit routes 
 Route::get('/rapporteerActiviteit/{activiteit_ID}', [RapporteerActiviteitController::class, 'rapportagesActiviteit']);
 Route::get('/rapporteerActiviteit', [RapporteerActiviteitController::class, 'index']);
+Route::post('/activiteit/rapporteer', [RapporteerActiviteitController::class, 'addRapportage']);
 
 //Authenticatie
 Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
