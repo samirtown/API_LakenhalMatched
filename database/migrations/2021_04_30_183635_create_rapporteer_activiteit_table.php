@@ -15,8 +15,8 @@ class CreateRapporteerActiviteitTable extends Migration
     {
         Schema::create('rapporteer_activiteit', function (Blueprint $table) {
             $table->text('reden')->nullable();
-            $table->unsignedBigInteger('activiteit_ID');
-            $table->unsignedBigInteger('user_ID');
+            $table->unsignedBigInteger('activiteit_ID')->unique();
+            $table->unsignedBigInteger('user_ID')->unique();
             
             $table->foreign('user_ID')->references('user_ID')->on('users');
             $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
