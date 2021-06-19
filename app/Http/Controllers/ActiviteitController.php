@@ -45,7 +45,17 @@ class ActiviteitController extends Controller
         $activiteit->beschrijving = $request->get('beschrijving');
         $activiteit->user_ID = $request->get('user_ID'); 
         $activiteit->lakenhal_activiteit = $request->get('lakenhal_activiteit');
-        $activiteit->max_aantal_deelnemers = $request->get('max_aantal_deelnemers');        
+        $activiteit->max_aantal_deelnemers = $request->get('max_aantal_deelnemers');
+        $activiteit->categorie = $request->get('categorie');     
+
+        if($request->file('afbeelding')){
+            $uniqueid = uniqid();
+            $extension = $request->file('afbeelding')->getClientOriginalExtension();
+            $afbeelding_name = $uniqueid.'.'.$extension;
+            $afbeelding_path = $request->file('afbeelding')->storeAs('', $afbeelding_name, 'profiel_foto' );
+            $activiteit->afbeelding = $afbeelding_path;
+        }
+
         $activiteit->save();
         return $activiteit;
     }
