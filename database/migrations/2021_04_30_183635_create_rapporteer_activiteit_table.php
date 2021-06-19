@@ -19,8 +19,8 @@ class CreateRapporteerActiviteitTable extends Migration
             $table->unsignedBigInteger('activiteit_ID');
             $table->unsignedBigInteger('user_ID');
             
-            $table->foreign('user_ID')->references('user_ID')->on('users');
-            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
+            $table->foreign('user_ID')->references('user_ID')->on('users')->onDelete('cascade');;
+            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit')->onDelete('cascade');;
             $table->timestamps();
         });
     }

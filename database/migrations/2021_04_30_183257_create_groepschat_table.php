@@ -19,7 +19,7 @@ class CreateGroepschatTable extends Migration
             $table->integer('max_aantal_personen');
             $table->unsignedBigInteger('activiteit_ID');
 
-            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
+            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit')->onDelete('cascade');;
         });
     }
 
