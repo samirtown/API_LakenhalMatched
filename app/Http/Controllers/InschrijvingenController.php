@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inschrijvingen;
+use App\Models\UserGroepschat;
+use App\Models\Activiteit;
 
 class InschrijvingenController extends Controller
 {
@@ -37,6 +39,22 @@ class InschrijvingenController extends Controller
         $inschrijving = Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->where('user_ID','=',$user_ID)->first();
         $inschrijving->geaccepteerd = true;
         $inschrijving->save();
+
+        $chat = new UserGroepschat();
+        $chat->user_ID = $user_ID;
+        $chat->groepschat_ID = $activiteit_ID;
+        $chat->save();
+        
         return $inschrijving;
+    }
+
+    public function ingeschreven($activiteit_ID, $user_ID){
+        $ingeschreven = Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->where('user_ID','=',$user_ID)->first();
+
+        if($ingeschreven){
+            return "true";
+        }elseif(!$ingeschreven){
+            return "false";
+        }
     }
 }

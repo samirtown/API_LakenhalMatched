@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Activiteit;
+use App\Models\GroepsChat;
+use App\Models\UserGroepschat;
 use Illuminate\Support\Facades\DB;
 
 class ActiviteitController extends Controller
@@ -34,6 +36,19 @@ class ActiviteitController extends Controller
         $activiteit->beschrijving = $request->get('beschrijving');      
         $activiteit->user_ID = $request->get('user_ID');   
         $activiteit->save();
-        return $activiteit;
+
+        $groepChat = new GroepsChat();
+        $groepChat->groepschat_ID = $activiteit->activiteit_ID;
+        $groepChat->groeps_aantal = 0;
+        $groepChat->max_aantal_personen = $activiteit->max_aantal_deelnemers;
+        $groepChat->activiteit_ID = $activiteit->activiteit_ID;
+        $groepChat->save();
+
+        $chat = new UserGroepschat();
+        $chat->user_ID = $request->get('user_ID');
+        $chat->groepschat_ID = $activiteit->activiteit_ID;
+        $chat->save();
+
+        return $chat;
     }
 }
