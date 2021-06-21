@@ -58,6 +58,7 @@ Route::get('/inschrijvingen/user/{user_ID}', [InschrijvingenController::class, '
 Route::get('/inschrijvingen/activiteit/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
 Route::get('/inschrijvingen/activiteitUser/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteitUser']);
 Route::put('/inschrijvingen/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'update']);
+Route::get('/ingeschreven/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'ingeschreven']);
 Route::get('/inschrijvingen', [InschrijvingenController::class, 'index']);
 Route::post('/inschrijvingen', [InschrijvingenController::class, 'create']);
 

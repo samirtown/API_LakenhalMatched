@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\UserGroepschat;
+use App\Models\UserGroepschat;
 
 class UserGroepschatController extends Controller
 {
