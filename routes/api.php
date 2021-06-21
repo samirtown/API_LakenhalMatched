@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ActiviteitController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GroepschatController;
 use App\Http\Controllers\UserGroepschatController;
 use App\Http\Controllers\InschrijvingenController;
@@ -38,6 +39,8 @@ Route::get('/activiteitenUsers', [ActiviteitController::class, 'activiteitenUser
 Route::get('/activiteitenUsersProfiel/{user_ID}', [ActiviteitController::class, 'activiteitenUsersProfiel']);
 Route::get('/activiteitenGerapporteerd', [ActiviteitController::class, 'activiteitenGerapporteerd']);
 Route::post('/activiteit', [ActiviteitController::class, 'create']);
+Route::patch('/activiteit/verwijderRapportage/{activiteit_ID}', [ActiviteitController::class, 'updateRapportage']);
+Route::delete('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'destroy']);
 
 //Categorie routes
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
@@ -57,6 +60,7 @@ Route::get('/userGroepschat/{groepschat_ID}', [UserGroepschatController::class, 
 Route::get('/inschrijvingen/user/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
 Route::get('/inschrijvingen/activiteit/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
 Route::get('/inschrijvingen/activiteitUser/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteitUser']);
+Route::get('/ingeschreven/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'ingeschreven']);
 Route::put('/inschrijvingen/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'update']);
 Route::get('/ingeschreven/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'ingeschreven']);
 Route::get('/inschrijvingen', [InschrijvingenController::class, 'index']);
@@ -65,6 +69,7 @@ Route::post('/inschrijvingen', [InschrijvingenController::class, 'create']);
 //RapporteerActiviteit routes 
 Route::get('/rapporteerActiviteit/{activiteit_ID}', [RapporteerActiviteitController::class, 'rapportagesActiviteit']);
 Route::get('/rapporteerActiviteit', [RapporteerActiviteitController::class, 'index']);
+Route::post('/activiteit/rapporteer', [RapporteerActiviteitController::class, 'addRapportage']);
 
 //Authenticatie
 Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {

@@ -14,10 +14,13 @@ class CreateRapporteerActiviteitTable extends Migration
     public function up()
     {
         Schema::create('rapporteer_activiteit', function (Blueprint $table) {
-            $table->text('reden');
+            $table->id();
+            $table->text('reden')->nullable();
             $table->unsignedBigInteger('activiteit_ID');
-
-            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit');
+            $table->unsignedBigInteger('user_ID');
+            
+            $table->foreign('user_ID')->references('user_ID')->on('users')->onDelete('cascade');;
+            $table->foreign('activiteit_ID')->references('activiteit_ID')->on('activiteit')->onDelete('cascade');;
             $table->timestamps();
         });
     }
@@ -31,6 +34,7 @@ class CreateRapporteerActiviteitTable extends Migration
     {
         schema::table('rapporteer_activiteit', function (Blueprint $table){
             $table->dropForeign('rapporteer_activiteit_activiteit_ID_foreign');
+            $table->dropForeign('rapporteer_activiteit_user_ID_foreign');
         });
         Schema::dropIfExists('rapporteer_activiteit');
     }

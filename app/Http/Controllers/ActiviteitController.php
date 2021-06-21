@@ -27,14 +27,37 @@ class ActiviteitController extends Controller
     }
 
     public function activiteitenGerapporteerd(){
-        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
+        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->orderBy('activiteit.aantal_gerapporteerd', 'DESC')->get();
+    }
+
+    public function destroy($id){
+        $activiteit = Activiteit::where('activiteit_ID', '=', $id)->delete();
+        return response()->json('activiteit verwijderd');
+    }
+
+    public function updateRapportage($id){
+        $activiteit = Activiteit::where('activiteit_ID', '=', $id)->update([
+            "aantal_gerapporteerd" => 0
+        ]);
     }
 
     public function create(Request $request){
         $activiteit = new Activiteit();
         $activiteit->titel = $request->get('titel');
-        $activiteit->beschrijving = $request->get('beschrijving');      
-        $activiteit->user_ID = $request->get('user_ID');   
+        $activiteit->beschrijving = $request->get('beschrijving');
+        $activiteit->user_ID = $request->get('user_ID'); 
+        $activiteit->lakenhal_activiteit = $request->get('lakenhal_activiteit');
+        $activiteit->max_aantal_deelnemers = $request->get('max_aantal_deelnemers');
+        $activiteit->categorie = $request->get('categorie');     
+
+        if($request->file('afbeelding')){
+            $uniqueid = uniqid();
+            $extension = $request->file('afbeelding')->getClientOriginalExtension();
+            $afbeelding_name = $uniqueid.'.'.$extension;
+            $afbeelding_path = $request->file('afbeelding')->storeAs('', $afbeelding_name, 'profiel_foto' );
+            $activiteit->afbeelding = $afbeelding_path;
+        }
+
         $activiteit->save();
 
         $groepChat = new GroepsChat();

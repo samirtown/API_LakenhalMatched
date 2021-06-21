@@ -26,8 +26,8 @@ class CreateActiviteitTable extends Migration
             $table->string('categorie')->nullable();
             $table->unsignedBigInteger('user_ID')->nullable();
 
-            $table->foreign('categorie')->references('categorie')->on('categorie');
-            $table->foreign('user_ID')->references('user_ID')->on('users');
+            $table->foreign('categorie')->references('categorie')->on('categorie')->onDelete('cascade');;
+            $table->foreign('user_ID')->references('user_ID')->on('users')->onDelete('cascade');;
 
         });
     }
