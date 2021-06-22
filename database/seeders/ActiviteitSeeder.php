@@ -24,7 +24,7 @@ class ActiviteitSeeder extends Seeder
             'aantal_gerapporteerd' => 6,
             'categorie' => 'Het thuis atelier',
             'user_ID' => 2,
-            'afbeelding' => '60ce030f529a7.jfif'
+            'afbeelding' => '3dvilten.png'
         ]);
         DB::table('activiteit')->insert([
             'titel' => 'Film project',
@@ -36,7 +36,7 @@ class ActiviteitSeeder extends Seeder
             'aantal_gerapporteerd' => 10,
             'categorie' => 'Samen kunst maken',
             'user_ID' => 3,
-            'afbeelding' => '60ce0105eb1a7.jfif'
+            'afbeelding' => 'filmproject.png'
         ]);
         DB::table('activiteit')->insert([
             'titel' => 'Leuke Date',
@@ -47,7 +47,7 @@ class ActiviteitSeeder extends Seeder
             'aantal_gerapporteerd' => 22,
             'categorie' => 'Samen kunst maken',
             'user_ID' => 3,
-            'afbeelding' => '60ce0105eb1a8.jfif'
+            'afbeelding' => 'leukedate.jpg'
         ]);
     }
 }

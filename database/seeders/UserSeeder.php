@@ -26,14 +26,14 @@ class UserSeeder extends Seeder
             'email' => 'ilsestorm@gmail.com',
             'password' => bcrypt('Lakens1101813nettav.'),
             'beroep' => 'Filmmaker',
-            'profiel_foto' => '60ce030f529a9.jfif'
+            'profiel_foto' => 'ilsestorm.png'
         ]);
         DB::table('users')->insert([
             'naam' => 'Henk Krol',
             'email' => 'henkkrol@gmail.com',
             'password' => bcrypt('Lakens1101813nettav.'),
             'beroep' => 'Informaticus',
-            'profiel_foto' => '60ce030f529b7.jfif'
+            'profiel_foto' => 'henkkrol.png'
         ]);
 
         DB::table('users')->insert([
@@ -41,14 +41,14 @@ class UserSeeder extends Seeder
             'email' => '17spyker@gmail.com',
             'password' => bcrypt('17spyker'),
             'beroep' => 'worstelaar',
-            'profiel_foto' => '60ce030f529c7.jfif',
+            'profiel_foto' => 'maurice.jfif',
         ]);
         DB::table('users')->insert([
             'naam' => 'Etienne',
             'email' => 'mg.koreman99@gmail.com',
             'password' => bcrypt('17spyker'),
             'beroep' => 'leraar',
-            'profiel_foto' => '60ce030f529d7.jfif',
+            'profiel_foto' => 'etienne.png',
         ]);
     }
 }
