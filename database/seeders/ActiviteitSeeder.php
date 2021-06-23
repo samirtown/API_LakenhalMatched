@@ -23,7 +23,7 @@ class ActiviteitSeeder extends Seeder
             'zichtbaar' => true,
             'aantal_gerapporteerd' => 6,
             'categorie' => 'Het thuis atelier',
-            'user_ID' => 2,
+            'user_ID' => 1,
             'afbeelding' => '3dvilten.png'
         ]);
         DB::table('activiteit')->insert([
