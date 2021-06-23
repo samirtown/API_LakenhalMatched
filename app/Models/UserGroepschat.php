@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserGroepschat extends Model
 {
+    public $timestamps = false;
     protected $table = 'user_groepschat';
+    protected $fillable = ['user_groepschat'];
 }

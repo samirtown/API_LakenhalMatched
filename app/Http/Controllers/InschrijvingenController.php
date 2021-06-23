@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inschrijvingen;
+use App\Models\UserGroepschat;
+use App\Models\Activiteit;
 
 class InschrijvingenController extends Controller
 {
@@ -14,6 +16,10 @@ class InschrijvingenController extends Controller
     //Zie alle inschrijvingen die bij een activiteit staan.
     public function inschrijvingenActiviteit($activiteit_ID){
         return Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->get();
+    }  
+    //Zie alle inschrijvingen met de user informatie
+    public function inschrijvingenActiviteitUser($activiteit_ID){
+        return Inschrijvingen::join('users', 'inschrijvingen.user_ID', '=', 'users.user_ID')->get()->where('activiteit_ID','=',$activiteit_ID);
     }  
 
     public function index(){
@@ -28,4 +34,26 @@ class InschrijvingenController extends Controller
         $activiteit->save();
         return $activiteit;
     } 
+
+    public function update($activiteit_ID, $user_ID){
+        $inschrijving = Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->where('user_ID','=',$user_ID)->first();
+        $inschrijving->geaccepteerd = true;
+        $inschrijving->save();
+
+        $chat = new UserGroepschat();
+        $chat->user_ID = $user_ID;
+        $chat->groepschat_ID = $activiteit_ID;
+        $chat->save();
+        
+        return $inschrijving;
+    }
+
+    public function ingeschreven($activiteit_ID, $user_ID){
+        $ingeschreven = Inschrijvingen::where('activiteit_ID','=',$activiteit_ID)->where('user_ID','=',$user_ID)->first();
+        if($ingeschreven){
+            return "true";
+        }elseif(!$ingeschreven){
+            return "false";
+        }
+    }
 }

@@ -3,8 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ActiviteitController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GroepschatController;
 use App\Http\Controllers\UserGroepschatController;
 use App\Http\Controllers\InschrijvingenController;
@@ -33,7 +35,12 @@ Route::post('users/profielFotoUpload/{user_ID}', [UserController::class, 'profie
 //Activiteit routes
 Route::get('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'show']);
 Route::get('/activiteit', [ActiviteitController::class, 'index']);
+Route::get('/activiteitenUsers', [ActiviteitController::class, 'activiteitenUsers']);
+Route::get('/activiteitenUsersProfiel/{user_ID}', [ActiviteitController::class, 'activiteitenUsersProfiel']);
+Route::get('/activiteitenGerapporteerd', [ActiviteitController::class, 'activiteitenGerapporteerd']);
 Route::post('/activiteit', [ActiviteitController::class, 'create']);
+Route::patch('/activiteit/verwijderRapportage/{activiteit_ID}', [ActiviteitController::class, 'updateRapportage']);
+Route::delete('/activiteit/{activiteit_ID}', [ActiviteitController::class, 'destroy']);
 
 //Categorie routes
 Route::get('/categorie/{categorie}', [CategorieController::class, 'show']);
@@ -50,21 +57,26 @@ Route::get('/userGroepschat/{user_ID}', [UserGroepschatController::class, 'users
 Route::get('/userGroepschat/{groepschat_ID}', [UserGroepschatController::class, 'groepenVanUser']);
 
 //Inschrijvingen routes 
-Route::get('/inschrijvingen/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
-Route::get('/inschrijvingen/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
+Route::get('/inschrijvingen/user/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
+Route::get('/inschrijvingen/activiteit/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteit']);
+Route::get('/inschrijvingen/activiteitUser/{activiteit_ID}', [InschrijvingenController::class, 'inschrijvingenActiviteitUser']);
+Route::get('/ingeschreven/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'ingeschreven']);
+Route::put('/inschrijvingen/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'update']);
+Route::get('/ingeschreven/activiteit/{activiteit_ID}/{user_ID}', [InschrijvingenController::class, 'ingeschreven']);
 Route::get('/inschrijvingen', [InschrijvingenController::class, 'index']);
 Route::post('/inschrijvingen', [InschrijvingenController::class, 'create']);
 
 //RapporteerActiviteit routes 
 Route::get('/rapporteerActiviteit/{activiteit_ID}', [RapporteerActiviteitController::class, 'rapportagesActiviteit']);
 Route::get('/rapporteerActiviteit', [RapporteerActiviteitController::class, 'index']);
+Route::post('/activiteit/rapporteer', [RapporteerActiviteitController::class, 'addRapportage']);
 
 //Authenticatie
 Route::group(['prefix' => 'auth', 'middleware' => 'CORS'], function ($router) {
-    Route::post('/register', [UserController::class, 'register'])->name('register.user');
-    Route::post('/login', [UserController::class, 'login'])->name('login.user');
-    Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('profile.user');
-    Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.user');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.user');
+    Route::get('/view-profile', [AuthController::class, 'viewProfile'])->name('profile.user');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.user');
 
     Route::post('/forgot-password', [UserController::class, 'forgotPassword'])->name('password.request');
     Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.reset');

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ActiviteitSeeder::class,
             InschrijvingenSeeder::class,
             RapporteerActiviteitSeeder::class,
+            GroepschatSeeder::class,
             UserGroepschatSeeder::class,
         ]);
     }
