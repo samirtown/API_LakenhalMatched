@@ -53,8 +53,10 @@ Route::get('/groepschat/{groepschat_ID}', [GroepschatController::class, 'show'])
 Route::get('/groepschat', [GroepschatController::class, 'index']);
 
 //UserGroepschat routes
-Route::get('/userGroepschat/{user_ID}', [UserGroepschatController::class, 'usersInGroep']);
-Route::get('/userGroepschat/{groepschat_ID}', [UserGroepschatController::class, 'groepenVanUser']);
+Route::get('/userGroepschat/all', [UserGroepschatController::class, 'usersEnGroep']);
+Route::get('/userGroepschat/user/{user_ID}', [UserGroepschatController::class, 'usersInGroep']);
+Route::get('/userGroepschat/user/activiteit/{user_ID}', [UserGroepschatController::class, 'usersInGroepActiviteit']);
+Route::get('/userGroepschat/groepschat/{groepschat_ID}', [UserGroepschatController::class, 'groepenVanUser']);
 
 //Inschrijvingen routes 
 Route::get('/inschrijvingen/user/{user_ID}', [InschrijvingenController::class, 'inschrijvingenPersoon']);
