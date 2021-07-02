@@ -19,7 +19,7 @@ class ActiviteitController extends Controller
     }
     
     public function activiteitenUsers(){
-        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get();
+        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->select('users.profiel_foto', 'activiteit.*')->get();
     }
 
     public function activiteitenUsersProfiel($user_ID){
