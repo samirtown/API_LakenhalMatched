@@ -56,5 +56,5 @@
           with:
             app-name: 'LakenhalMatchedAPI'
             slot-name: 'production'
-            publish-profile: ${{ secrets.AzureAppService_PublishProfile_f82493700d4a4561a34094246ed6649d }}
+            publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd755fd5cd874b53954776fc76a57c78 }}
             package: .
