@@ -23,7 +23,7 @@ class ActiviteitController extends Controller
     }
 
     public function activiteitenUsersProfiel($user_ID){
-        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get()->where('user_ID','=',$user_ID);
+        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->where('users.user_ID','=',$user_ID)->get();
     }
 
     public function activiteitenGerapporteerd(){
