@@ -23,11 +23,11 @@ class ActiviteitController extends Controller
     }
 
     public function activiteitenUsersProfiel($user_ID){
-        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->get()->where('user_ID','=',$user_ID);
+        return Activiteit::join('users', 'activiteit.user_ID', '=', 'users.user_ID')->select('users.profiel_foto', 'activiteit.*')->get()->where('user_ID','=',$user_ID);
     }
 
     public function activiteitenGerapporteerd(){
-        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->orderBy('activiteit.aantal_gerapporteerd', 'DESC')->get();
+        return Activiteit::where('aantal_gerapporteerd', '>', 5)->join('users', 'activiteit.user_ID', '=', 'users.user_ID')->select('users.profiel_foto', 'users.naam', 'activiteit.*')->orderBy('activiteit.aantal_gerapporteerd', 'DESC')->get();
     }
 
     public function destroy($id){
