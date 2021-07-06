@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inschrijvingen;
 use App\Models\UserGroepschat;
+use App\Models\Groepschat;
 use App\Models\Activiteit;
 
 class InschrijvingenController extends Controller
@@ -44,7 +45,11 @@ class InschrijvingenController extends Controller
         $chat->user_ID = $user_ID;
         $chat->groepschat_ID = $activiteit_ID;
         $chat->save();
-        
+
+        $groep = Groepschat::where('activiteit_ID', '=', $activiteit_ID);
+        $groep->increment('groeps_aantal');
+        $groep->save();
+
         return $inschrijving;
     }
 
